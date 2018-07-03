@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>{{title}}</h2>
+<mat-dialog-content *ngIf="progressBarValue==0;">Sind sie sicher?</mat-dialog-content>
+<mat-dialog-content *ngIf="progressBarValue>0;">
+  <p class="truncate-text" >{{Info}}</p>
+  <mat-progress-bar mode="determinate" color="warn" value="{{progressBarValue}}"></mat-progress-bar>
+</mat-dialog-content>
+<mat-dialog-actions *ngIf="progressBarValue==0;">
+  <button mat-button mat-dialog-close>Nein</button>
+  <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+  <label for="ifile" mat-button mat-button class="mat-button">Ja</label>
+</mat-dialog-actions>
+<mat-dialog-actions *ngIf="progressBarValue>0;">
+  <button *ngIf="progressBarValue > 99;" mat-button mat-dialog-close>Schließen</button>
+</mat-dialog-actions>
+<input id="ifile" type="file" style="display:none;" accept=".json" (change)="changeListener($event)">

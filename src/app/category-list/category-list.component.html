@@ -1,0 +1,15 @@
+<app-toolbar toolbarTitle="Kategortien"></app-toolbar>
+<mat-list>
+  <mat-list-item *ngFor="let category of categoryItems">
+    <button mat-mini-fab color="primary" [routerLink]="['category/',category.key]">
+      {{category.title.substring(0,1)}}
+    </button>
+    <span [routerLink]="['category',category.key,'cash']">{{category.title}}<br><sup>summe:{{category.sumMonth | number}} &euro;</sup><br><sup>summe:{{category.sumYear | number}} &euro;</sup></span>
+  </mat-list-item>
+</mat-list>
+<button [routerLink]="['category']" class="page_fab_button" mat-fab color="primary">
+  <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+</button>
+<ng-template #loading>
+  <div>Loading...</div>
+</ng-template>

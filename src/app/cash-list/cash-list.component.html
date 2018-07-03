@@ -1,0 +1,19 @@
+<app-toolbar toolbarTitle="{{cashItems.title}}" toolbarRetrunLink="/"></app-toolbar>
+<mat-list>
+  <mat-list-item *ngFor="let cash of cashItems.cash">
+    <div>
+
+
+      <p class="redFont">{{cash.total | number:'1.2'}}&euro;</p>
+      <p class="greyFont">{{cash.createdate | date:'dd.MM.yyyy'}}</p>
+    </div>
+    <p>
+      {{cash.content}}
+    </p>
+    <span mat-button [routerLink]="['cash',cash.key]">
+    </span>
+  </mat-list-item>
+</mat-list>
+<button [routerLink]="['cash/']" class="page_fab_button" mat-fab color="warn">
+  <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+</button>

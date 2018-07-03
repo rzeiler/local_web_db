@@ -1,0 +1,27 @@
+.app-space {
+  flex: 1 1 auto;
+}
+
+.mat-list-item-content {
+  display: flex;
+  margin: 10px;
+}
+
+p {
+  margin: 0px;
+  padding: 0 6px 0 6px;
+}
+
+.redFont {
+  color: red;
+  font-size: 120%;
+}
+
+.greyFont {
+  color: #999;
+  font-size: 90%;
+}
+
+.redFont, .greyFont {
+  text-align: right;
+}
