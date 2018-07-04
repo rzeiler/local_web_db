@@ -1,7 +1,6 @@
 <h2 mat-dialog-title>{{title}}</h2>
 <mat-dialog-content *ngIf="progressBarValue==0;">Sind sie sicher?</mat-dialog-content>
 <mat-dialog-content *ngIf="progressBarValue>0;">
-  <p class="truncate-text" >{{Info}}</p>
   <mat-progress-bar mode="determinate" color="warn" value="{{progressBarValue}}"></mat-progress-bar>
 </mat-dialog-content>
 <mat-dialog-actions *ngIf="progressBarValue==0;">

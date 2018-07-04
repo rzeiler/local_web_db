@@ -1,13 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
+
 @import '~@angular/material/prebuilt-themes/purple-green.css';
 @import "~material-design-icons/iconfont/material-icons.css";
-
 html, body {
   margin: 0;
   padding: 0;
   height: 100%;
   width: 100%;
   font-family: arial;
+}
+
+.marg{
+  margin: 5px 10px 5px 10px;
+}
+
+
+.mat-app-background {
+  background-color: rgba(30, 30, 30, 0.6);
+}
+
+html {
+  background: url(assets/bg.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 .mat-card {

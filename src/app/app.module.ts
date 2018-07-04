@@ -3,8 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { Globals } from './global';
-
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/de';
 
@@ -31,59 +29,41 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTableModule } from '@angular/material/table';
-/* db */
-import { AngularFireDatabaseModule } from 'angularfire2/database';
-import { AngularFireAuthModule } from 'angularfire2/auth';
-import { AngularFireModule } from 'angularfire2';
-
+import { MatChipsModule } from '@angular/material/chips';
 /* comp */
 import { AppComponent } from './app.component';
-import { UserAuthComponent } from './user-auth/user-auth.component';
-
-/* serv */
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
-import { ToolbarComponent } from './toolbar/toolbar.component';
-
-
-import { CategoryListComponent } from './category-list/category-list.component';
-
-import { CashListComponent } from './cash-list/cash-list.component';
 import { CashFormComponent } from './cash-form/cash-form.component';
 import { SettingsComponent, ImportComponent } from './settings/settings.component';
 import { EditCategoryComponent, DeleteComponent } from './edit-category/edit-category.component';
-import { DesktopComponent } from './desktop/desktop.component';
-
-
+import { MatPaginatorModule, MatSortModule } from '@angular/material';
+/* serv */
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+import { CategoriesComponent } from './categories/categories.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { PaymentsComponent } from './payments/payments.component';
 
 const routes: Routes = [
-  { path: '', component: CategoryListComponent },
-  { path: 'category/:id/cash', component: CashListComponent },
+  { path: '', component: DashboardComponent },
+  { path: 'category/:id/cash', component: DashboardComponent },
   { path: 'category/:id', component: EditCategoryComponent },
-  { path: 'category', component: EditCategoryComponent },
+  { path: 'category/:id/cash/:id', component: CashFormComponent },
   { path: 'settings', component: SettingsComponent }
 ];
-
 
 @NgModule({
   declarations: [
     AppComponent,
-    UserAuthComponent,
-    ToolbarComponent,
-    CategoryListComponent,
-    CashListComponent,
     CashFormComponent,
     ImportComponent,
     SettingsComponent,
     EditCategoryComponent,
     DeleteComponent,
-    DesktopComponent
+    CategoriesComponent,
+    DashboardComponent,
+    PaymentsComponent
   ],
   imports: [
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireDatabaseModule,
-    AngularFireAuthModule,
-
     RouterModule.forRoot(routes),
     BrowserAnimationsModule,
     BrowserModule,
@@ -108,10 +88,13 @@ const routes: Routes = [
     MatSnackBarModule,
     MatGridListModule,
     MatTableModule,
-    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
+    MatChipsModule,
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
+    MatPaginatorModule,
+    MatSortModule
   ],
   entryComponents: [ImportComponent, DeleteComponent],
-  providers: [Globals, MatNativeDateModule, { provide: LOCALE_ID, useValue: 'de' }, { provide: 'LOCALSTORAGE', useFactory: getLocalStorage }],
+  providers: [MatNativeDateModule, { provide: LOCALE_ID, useValue: 'de-DE' }, { provide: 'LOCALSTORAGE', useFactory: getLocalStorage }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

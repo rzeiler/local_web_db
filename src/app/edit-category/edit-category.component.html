@@ -1,4 +1,4 @@
-<app-toolbar toolbarTitle="Kategorie" toolbarRetrunLink="/">
+ 
   <span *ngIf="isFormReady">
   <button (click)="deleteConfirm()" class="animatedicon" *ngIf="itemHasKey" matTooltip="Löschen" mat-icon-button>
       <mat-icon aria-label="Löschen">delete</mat-icon>
@@ -7,7 +7,7 @@
       <mat-icon aria-label="Speichern">save</mat-icon>
   </button>
 </span>
-</app-toolbar>
+
 <form *ngIf="isFormReady else loading" [formGroup]="adForm" novalidate class="from-container">
   <mat-form-field hintLabel="Maximal 40 Zeichen">
     <input matInput formControlName="title" required maxlength="40" autocomplete="off" placeholder="Titel">

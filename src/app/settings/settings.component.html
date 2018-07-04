@@ -1,39 +1,6 @@
-<app-toolbar toolbarTitle="Einstellungen" toolbarRetrunLink="/">
-
-</app-toolbar>
-
-<mat-card>
-  <mat-card-title>Sichern / Wiederherstellen</mat-card-title>
-  <mat-card-actions>
-    <button  mat-button (click)="openDialog()">Wiederherstellen</button>
-    <button mat-button>Sichern</button>
-  </mat-card-actions>
-</mat-card>
-
-<mat-card>
-  <mat-card-title>Einstellungen</mat-card-title>
-  <mat-card-subtitle>Montasgrenze</mat-card-subtitle>
-  <mat-card-content>
-    Wenn die Genze überschritten wird, erfolgt ein Information.
-  </mat-card-content>
-  <mat-card-subtitle>Jahresgrenze</mat-card-subtitle>
-  <mat-card-content>
-    Wenn die Genze überschritten wird, erfolgt ein Information.
-  </mat-card-content>
-</mat-card>
-<mat-card>
-  <mat-card-title>Benutzerkonto</mat-card-title>
-  <mat-card-content *ngIf="auth;">
-    Aktueller Benutzer {{auth.displayName}}
-  </mat-card-content>
-  <mat-card-actions>
-    <!--is out -->
-    <button *ngIf="!auth;" matTooltip="Anmelden mit Google!" mat-button (click)="login()">
-      Anmelden mit Goolge
-    </button>
-    <!--is in -->
-    <button *ngIf="auth;" (click)="logout()" mat-button>
-      Abmelden
-    </button>
-  </mat-card-actions>
-</mat-card>
+<div class="centered">
+  <p>
+    Es sind aktuell keine Daten vorhanden. Bitte lade ein aktuelles Backup hoch.
+  </p>
+  <button mat-raised-button color="primary" (click)="openDialog()">Daten importieren!</button>
+</div>

@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdService } from '../ad.service';
-import { UserAuthService, AuthInfo } from '../user-auth.service';
+
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 /* material */
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
@@ -31,12 +31,10 @@ export class EditCategoryComponent {
   itemHasKey: boolean = false;
   ad: any;
   adForm: FormGroup;
-  ai: AuthInfo;
 
   constructor(
     private adService: AdService,
     private fb: FormBuilder,
-    public uaService: UserAuthService,
     private route: ActivatedRoute,
     private router: Router,
     public snackBar: MatSnackBar,

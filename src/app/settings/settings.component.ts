@@ -1,11 +1,11 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { AuthInfo } from "../auth-info";
-import { BehaviorSubject, Observable, Subscription } from "rxjs";
+import { Component, Inject } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { MAT_DIALOG_DATA } from '@angular/material';
 
 /* DB */
 import { AdService } from '../ad.service';
+
 
 @Component({
   selector: 'import.component',
@@ -14,19 +14,9 @@ import { AdService } from '../ad.service';
 export class ImportComponent {
 
   title: string = "Daten überschreiben?";
-  Info: string = "...";
   progressBarValue: number = 0;
-  //public auth: AuthInfo;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public db: AdService) {
-
-    // userAuthService.authUser().subscribe((user: AuthInfo) => {
-    //   if (user.uid != null) {
-    //     this.auth = user;
-    //     //this.itemsRef = db.list('/' + user.uid + '/category/')
-    //   }
-    // });
-  }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public db: AdService) { }
 
   changeListener($event): void {
     this.readThis($event.target);
@@ -44,15 +34,15 @@ export class ImportComponent {
       var step = 100 / maxLength;
       let categoryIndex = 0;
       let cashIndex = 0;
-
       jsonObject.forEach(category => {
         self.progressBarValue += step;
         category.key = categoryIndex++;
         category.cash.forEach(cash => {
           cash.key = cashIndex++;
+          cash.category = category.key;
         });
       });
-      self.db.updateAd(JSON.stringify(jsonObject))
+      self.db.setData(jsonObject);
       self.progressBarValue = 100;
     }
     myReader.readAsText(file);
@@ -64,15 +54,9 @@ export class ImportComponent {
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.css']
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent {
 
-  constructor(public dialog: MatDialog) {
-    // userAuthService.authUser().subscribe((user: AuthInfo) => {
-    //   if (user.uid != null) {
-    //     this.auth = user;
-    //   }
-    // });
-  }
+  constructor(public dialog: MatDialog, public router: Router) { }
 
   openDialog() {
     const dialogRef = this.dialog.open(ImportComponent, {
@@ -80,22 +64,9 @@ export class SettingsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      this.router.navigate(['/']);
       console.log(`Dialog result: ${result}`);
     });
   }
-
-  login() {
-    //this.userAuthService.login();
-  }
-
-  logout() {
-    // this.userAuthService.logout();
-    // this.auth = null;
-  }
-
-  ngOnInit() {
-  }
-
-
 
 }
