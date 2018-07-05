@@ -24,6 +24,7 @@
               "src/manifest.json"
             ],
             "styles": [
+              "src/assets/fonts/fonts.css",
               "src/styles.css"
             ],
             "scripts": []

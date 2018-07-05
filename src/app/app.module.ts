@@ -21,7 +21,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -30,38 +30,37 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTableModule } from '@angular/material/table';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatPaginatorModule, MatSortModule } from '@angular/material';
+
 /* comp */
 import { AppComponent } from './app.component';
-import { CashFormComponent } from './cash-form/cash-form.component';
+import { CategoriesComponent, CategoryComponent, DeleteCategoryComponent } from './categories/categories.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { PaymentsComponent, PaymentComponent, DeletePaymentComponent } from './payments/payments.component';
 import { SettingsComponent, ImportComponent } from './settings/settings.component';
-import { EditCategoryComponent, DeleteComponent } from './edit-category/edit-category.component';
-import { MatPaginatorModule, MatSortModule } from '@angular/material';
+
 /* serv */
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { CategoriesComponent } from './categories/categories.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { PaymentsComponent } from './payments/payments.component';
+
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
-  { path: 'category/:id/cash', component: DashboardComponent },
-  { path: 'category/:id', component: EditCategoryComponent },
-  { path: 'category/:id/cash/:id', component: CashFormComponent },
   { path: 'settings', component: SettingsComponent }
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
-    CashFormComponent,
+    DashboardComponent,
     ImportComponent,
     SettingsComponent,
-    EditCategoryComponent,
-    DeleteComponent,
     CategoriesComponent,
-    DashboardComponent,
-    PaymentsComponent
+    CategoryComponent,
+    DeleteCategoryComponent,
+    PaymentsComponent,
+    PaymentComponent,
+    DeletePaymentComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -93,8 +92,12 @@ const routes: Routes = [
     MatPaginatorModule,
     MatSortModule
   ],
-  entryComponents: [ImportComponent, DeleteComponent],
-  providers: [MatNativeDateModule, { provide: LOCALE_ID, useValue: 'de-DE' }, { provide: 'LOCALSTORAGE', useFactory: getLocalStorage }],
+  entryComponents: [ImportComponent, CategoryComponent, DeleteCategoryComponent, PaymentComponent, DeletePaymentComponent],
+  providers: [
+    MatNativeDateModule,
+    { provide: LOCALE_ID, useValue: 'de-DE' },
+    { provide: 'LOCALSTORAGE', useFactory: getLocalStorage }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,35 @@
+<h1 mat-dialog-title>
+  <span>{{title}}</span>
+</h1>
+<mat-dialog-content>
+  <form [formGroup]="adForm" novalidate class="from-container">
+    <mat-form-field hintLabel="Maximal 250 Zeichen">
+      <input matInput formControlName="content" required maxlength="250" autocomplete="off" placeholder="Beschreibung">
+      <mat-hint align="end">{{adForm.value.content.length || 0}}/250</mat-hint>
+      <mat-error *ngIf="!adForm.get('content').valid">Die Beschreibung muss mit mindestens 3 Zeichen haben! </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select formControlName="repeat" placeholder="Wiederholung">
+        <mat-option [value]="3">Jährlich</mat-option>
+        <mat-option [value]="2">Monatlich</mat-option>
+        <mat-option [value]="1">Wöchentlich</mat-option>
+        <mat-option [value]="0">Einamlig</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field >
+      <input matInput formControlName="total" required autocomplete="off" placeholder="Summe">
+      <mat-error *ngIf="!adForm.get('content').valid">Eine Summe ist erforderlich!</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput readonly [matDatepicker]="picker" formControlName="_date" placeholder="Erstellt am">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="!adForm.get('_date').valid">{{adForm.get('_date').errors | json}} </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button *ngIf="data.key > 0" (click)="confirmDelete()">Löschen</button>
+  <button mat-button [mat-dialog-close]="null">Schließen</button>
+  <button mat-button (click)="save()">Speichern</button>
+</mat-dialog-actions>

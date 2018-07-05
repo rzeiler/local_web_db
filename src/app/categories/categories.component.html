@@ -1,6 +1,10 @@
-<mat-form-field class="marg block">
-  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-</mat-form-field>
+<div style="display: flex;">
+  <mat-form-field class="marg block">
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+  </mat-form-field>
+  <span class="app-space"></span>
+  <button color="primary" mat-mini-fab (click)="addCategory()" ><mat-icon>add</mat-icon></button>
+</div>
 <div class="marg mat-elevation-z8">
   <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
     <ng-container matColumnDef="title">
@@ -10,7 +14,7 @@
     </ng-container>
     <ng-container matColumnDef="sumMonth">
       <mat-header-cell *matHeaderCellDef mat-sort-header>im Monat</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row.sumMonth |  currency}}</mat-cell>
+      <mat-cell *matCellDef="let row">{{row.sumMonth | currency}}</mat-cell>
       <mat-footer-cell *matFooterCellDef> </mat-footer-cell>
     </ng-container>
     <ng-container matColumnDef="sumYear">
@@ -18,8 +22,9 @@
       <mat-cell *matCellDef="let row" [style.color]="row.color">{{row.sumYear | currency}}</mat-cell>
       <mat-footer-cell *matFooterCellDef></mat-footer-cell>
     </ng-container>
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openItem(row)"></mat-row>
+    <mat-header-row *matHeaderRowDef="displayedColumns">
+    </mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openPayments(row)" (dblclick)="editCategory(row)"></mat-row>
   </mat-table>
 
   <mat-paginator #paginator [length]="dataSource.data.length" [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[10, 20, 40]">

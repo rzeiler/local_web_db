@@ -7,15 +7,19 @@ html, body {
   padding: 0;
   height: 100%;
   width: 100%;
-  font-family: arial;
+  font-family: Raleway;
+}
+
+*{
+  font-family: Raleway;
 }
 
 .marg{
   margin: 5px 10px 5px 10px;
 }
 
-
 .mat-app-background {
+  /*opacity: .9; */
   background-color: rgba(30, 30, 30, 0.6);
 }
 
@@ -40,11 +44,8 @@ html {
   white-space: nowrap;
 }
 
-button.page_fab_button {
-  position: fixed;
-  z-index: 2;
-  bottom: 2%;
-  right: 2%;
+.mat-dialog-actions {
+  float: right;
 }
 
 @keyframes fadeInFromNone {

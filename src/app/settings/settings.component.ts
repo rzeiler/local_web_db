@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatDialog } from '@angular/material';
-import { MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog,MAT_DIALOG_DATA } from '@angular/material';
+
 
 /* DB */
 import { AdService } from '../ad.service';

@@ -1,0 +1,35 @@
+<h1 mat-dialog-title>
+  <span>  {{title}}
+  </span>
+
+</h1>
+<mat-dialog-content>
+  <form [formGroup]="adForm" novalidate class="from-container">
+    <mat-form-field hintLabel="Maximal 40 Zeichen">
+      <input matInput formControlName="title" required maxlength="40" autocomplete="off" placeholder="Titel">
+      <mat-hint align="end">{{adForm.value.title.length || 0}}/40</mat-hint>
+      <mat-error *ngIf="!adForm.get('title').valid">Die angabe eines Titels mit mindestens 3 Zeichen ist erforderlich! </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-select formControlName="rating" placeholder="Häufigkeit der Verwendung">
+        <mat-option [value]="5">Oft</mat-option>
+        <mat-option [value]="4">Etwas öffters</mat-option>
+        <mat-option [value]="3">Nicht so oft</mat-option>
+        <mat-option [value]="2">Manchmal</mat-option>
+        <mat-option [value]="1">Weniger</mat-option>
+        <mat-option>Unbestimmt</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput readonly [matDatepicker]="picker" formControlName="_date" placeholder="Erstellt am">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="!adForm.get('_date').valid">{{adForm.get('_date').errors | json}} </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button *ngIf="data.key > 0" (click)="confirmDelete()">Löschen</button>
+  <button mat-button [mat-dialog-close]="null">Schließen</button>
+  <button mat-button (click)="save()">Speichern</button>
+</mat-dialog-actions>
