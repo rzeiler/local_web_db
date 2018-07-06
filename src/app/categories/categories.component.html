@@ -2,26 +2,43 @@
   <mat-form-field class="marg block">
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
   </mat-form-field>
+
+
+
   <span class="app-space"></span>
-  <button color="primary" mat-mini-fab (click)="addCategory()" ><mat-icon>add</mat-icon></button>
+  <button color="primary" mat-mini-fab (click)="addCategory()"><mat-icon>add</mat-icon></button>
 </div>
 <div class="marg mat-elevation-z8">
   <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
     <ng-container matColumnDef="title">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Kategorie</mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{row.title}} </mat-cell>
-      <mat-footer-cell *matFooterCellDef> </mat-footer-cell>
+      <mat-cell *matCellDef="let row">
+        <div>
+          {{row.title}}
+          <span>
+            {{costByCategoryYear(row) | currency }}<br> {{costByCategorMonth(row) | currency }}
+          </span>
+        </div>
+      </mat-cell>
+      <mat-footer-cell *matFooterCellDef>
+        <div class="">
+            {{totalCostYear | async | currency}}
+        </div>
+        <div class="">
+            {{totalCostMonth | async | currency}}
+        </div>
+      </mat-footer-cell>
     </ng-container>
     <ng-container matColumnDef="rating">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Wichtig?</mat-header-cell>
       <mat-cell *matCellDef="let row">{{print(row.rating)}}</mat-cell>
-      <mat-footer-cell *matFooterCellDef> </mat-footer-cell>
+      <mat-footer-cell *matFooterCellDef></mat-footer-cell>
     </ng-container>
     <mat-header-row *matHeaderRowDef="displayedColumns">
     </mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openPayments(row)" (dblclick)="editCategory(row)"></mat-row>
+    <mat-footer-row *matFooterRowDef="displayedColumns"></mat-footer-row>
   </mat-table>
-
   <mat-paginator #paginator [length]="dataSource.data.length" [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[10, 20, 40]">
   </mat-paginator>
 </div>

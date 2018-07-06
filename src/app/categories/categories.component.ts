@@ -4,13 +4,13 @@ import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { BehaviorSubject, Observable, Subscription } from "rxjs";
 
 import { AdService } from '../ad.service';
-import { Observable } from "rxjs";
 import { ICategory } from "../category";
 import { ICash } from '../cash';
 
-const ratingSelection = ['Unbestimmt','Weniger','Manchmal','Nicht so oft','Etwas öffters','Oft'];
+const ratingSelection = ['Unbestimmt', 'Weniger', 'Manchmal', 'Nicht so oft', 'Etwas öffters', 'Oft'];
 
 @Component({
   selector: 'categories',
@@ -19,10 +19,12 @@ const ratingSelection = ['Unbestimmt','Weniger','Manchmal','Nicht so oft','Etwas
 })
 export class CategoriesComponent {
   displayedColumns = ['title', 'rating'];
-  dataSource: MatTableDataSource<ICash>;
+  dataSource: MatTableDataSource<ICategory>;
 
-  private _observableList: Observable<ICategory[]>
+  private _observableList: Observable<ICategory[]>;
   private _category: ICategory;
+  private totalCostYear: BehaviorSubject<number> = new BehaviorSubject(0);
+  private totalCostMonth: BehaviorSubject<number> = new BehaviorSubject(0);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -35,6 +37,8 @@ export class CategoriesComponent {
     db.getCategories();
 
     this._observableList.subscribe((data: any) => {
+      this.totalCostYear.next(0);
+      this.totalCostMonth.next(0);
       this.dataSource.data = data.filter(function(o) {
         if (o.isdeleted == false)
           return o;
@@ -60,6 +64,36 @@ export class CategoriesComponent {
   print(index: number) {
     return ratingSelection[index];
   }
+
+  costByCategorMonth(category: ICategory): number {
+    var now = new Date();
+    const thisMonth = new Date(now.getFullYear() - 2, now.getMonth(), 1, 0, 0, 0, 0);
+    const payments = category.cash.filter(function(b) { return (!b.isdeleted) ? b : null });
+    const yearPayments = payments.filter(function(b) {
+      if (b.createdate >= thisMonth.getTime())
+        return b;
+    });
+    let r = yearPayments.map(t => t.total).reduce((acc, value) => acc + value, 0);
+    const cv = this.totalCostMonth.getValue();
+    this.totalCostMonth.next(cv + r);
+    return r;
+  }
+
+  costByCategoryYear(category: ICategory): number {
+    var now = new Date();
+    const thisYear = new Date(now.getFullYear() - 2, 0, 1, 0, 0, 0, 0);
+    const payments = category.cash.filter(function(b) { return (!b.isdeleted) ? b : null });
+    const yearPayments = payments.filter(function(b) {
+      if (b.createdate >= thisYear.getTime())
+        return b;
+    });
+    let r = yearPayments.map(t => t.total).reduce((acc, value) => acc + value, 0);
+    const cv = this.totalCostYear.getValue();
+    this.totalCostYear.next(cv + r);
+    return r;
+  }
+
+
 
   addCategory() {
     const dialogRef = this.dialog.open(CategoryComponent, {

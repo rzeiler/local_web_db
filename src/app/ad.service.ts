@@ -55,9 +55,23 @@ export class AdService {
   }
 
   updatePaymant(updatetedCash: ICash) {
-    this._category.cash[updatetedCash.key] = updatetedCash;
-    this._observableCategory.next(this._category);
+    /* update cash*/
+    this._category.cash.map((cash: ICash) => {
+      if (cash.key == updatetedCash.key) {
+        cash.content = updatetedCash.content;
+        cash.createdate = updatetedCash.createdate;
+        cash.total = updatetedCash.total;
+        cash.repeat = updatetedCash.repeat;
+      }
+    });
+    /* update category */
+    this._list.map((category: ICategory) => {
+      if (category.key == updatetedCash.category) {
+        category = this._category;
+      }
+    });
     this.storeData();
+
   }
 
   removePaymant(rmCash: ICash) {
@@ -98,7 +112,7 @@ export class AdService {
     this._list.map((category: ICategory) => {
       if (category.key == updatedCategory.key) {
         category.title = updatedCategory.title;
-        category.rating = updatedCategory.rating;
+        category.rating =  updatedCategory.rating;
         category.createdate = updatedCategory.createdate;
       }
     });

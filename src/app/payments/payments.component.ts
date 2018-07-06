@@ -60,6 +60,7 @@ export class PaymentsComponent {
 
     addDialogRef.afterClosed().subscribe((cash: ICash) => {
       if (cash != undefined) {
+        cash.isdeleted = false;
         this.db.addPaymant(cash);
       }
     });
@@ -74,6 +75,7 @@ export class PaymentsComponent {
 
     editDialogRef.afterClosed().subscribe((cash: ICash) => {
       if (cash != undefined) {
+        cash.isdeleted = false;
         this.db.updatePaymant(cash);
       }
     });

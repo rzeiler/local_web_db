@@ -5,3 +5,10 @@
 .mat-mini-fab {
   margin: 60px 20px -60px 10px;
 }
+
+.mat-cell div span {
+  display: block;
+  font-size: 70%;
+
+  color: #69f0ae;
+}
