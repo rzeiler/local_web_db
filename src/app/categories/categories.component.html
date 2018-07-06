@@ -12,15 +12,10 @@
       <mat-cell *matCellDef="let row"> {{row.title}} </mat-cell>
       <mat-footer-cell *matFooterCellDef> </mat-footer-cell>
     </ng-container>
-    <ng-container matColumnDef="sumMonth">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>im Monat</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row.sumMonth | currency}}</mat-cell>
+    <ng-container matColumnDef="rating">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Wichtig?</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{print(row.rating)}}</mat-cell>
       <mat-footer-cell *matFooterCellDef> </mat-footer-cell>
-    </ng-container>
-    <ng-container matColumnDef="sumYear">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>im Jahr</mat-header-cell>
-      <mat-cell *matCellDef="let row" [style.color]="row.color">{{row.sumYear | currency}}</mat-cell>
-      <mat-footer-cell *matFooterCellDef></mat-footer-cell>
     </ng-container>
     <mat-header-row *matHeaderRowDef="displayedColumns">
     </mat-header-row>

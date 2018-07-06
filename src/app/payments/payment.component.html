@@ -29,7 +29,7 @@
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button *ngIf="data.key > 0" (click)="confirmDelete()">Löschen</button>
+  <button mat-button *ngIf="data.key >= 0" (click)="confirmDelete()">Löschen</button>
   <button mat-button [mat-dialog-close]="null">Schließen</button>
   <button mat-button (click)="save()">Speichern</button>
 </mat-dialog-actions>

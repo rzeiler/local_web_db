@@ -1,9 +1,10 @@
 export interface ICash {
-  key: string;
+  key: number;
   content: string;
   createdate: number;
   total: number;
   repeat: number;
   iscloned: boolean;
   category: number;
+  isdeleted: boolean;
 }

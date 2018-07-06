@@ -13,7 +13,7 @@ export class AdService {
 
 
 
-  private _cashList: ICash[] = [];
+  //private _cashList: ICash[] = [];
   private _observableCashList: BehaviorSubject<ICash[]> = new BehaviorSubject([]);
 
 
@@ -21,12 +21,13 @@ export class AdService {
 
   get observableList(): Observable<ICategory[]> { return this._observableList.asObservable() }
 
-  get cashList(): Observable<ICash[]> { return this._observableCashList.asObservable() }
+  //  get cashList(): Observable<ICash[]> { return this._observableCashList.asObservable() }
 
   get changes(): Observable<number> { return this._changes.asObservable() }
 
-  // private _observableCategory: BehaviorSubject<ICategory> = new BehaviorSubject(null);
-  // get category(): Observable<ICategory> { return this._observableCategory.asObservable() }
+  private _category: ICategory;
+  private _observableCategory: BehaviorSubject<ICategory> = new BehaviorSubject(null);
+  get category(): Observable<ICategory> { return this._observableCategory.asObservable() }
 
 
   constructor(@Inject('LOCALSTORAGE') private localStorage: any) {
@@ -34,56 +35,75 @@ export class AdService {
     this.trackChanges(false);
   }
 
-  updateCash(updatedCash: ICash) {
-    let data = JSON.parse(this.localStorage.getItem('categories'));
-    data.map((category: ICategory) => {
-      if (category.key == updatedCash.category) {
-        category.cash.map((cash: ICash) => {
-          if (cash.key == updatedCash.key) {
-            cash.content = updatedCash.content;
-            cash.total = updatedCash.total;
-            cash.repeat = updatedCash.repeat;
-            cash.createdate = updatedCash.createdate;
-            console.log(cash);
-          }
-        });
-      }
-    });
+  storeData() {
+    const json = JSON.stringify(this._list);
+    this.localStorage.setItem('categories', json);
     this.trackChanges();
-    this.setData(data);
   }
 
-  removeCategory(key: number) {
-    const data = JSON.parse(this.localStorage.getItem('categories'));
-    let _data = data.filter(function(el) {
-      if (el.key !== key) {
-        return el;
+  addPaymant(newCash: ICash) {
+    const newIndex = this._category.cash.length;
+    newCash.key = newIndex;
+    this._category.cash.push(newCash);
+    this._list.map((category: ICategory) => {
+      if (category.key == newCash.category) {
+        category = this._category;
       }
     });
-    this.trackChanges();
-    this.setData(_data);
+    this._observableCategory.next(this._category);
+    this.storeData();
+  }
+
+  updatePaymant(updatetedCash: ICash) {
+    this._category.cash[updatetedCash.key] = updatetedCash;
+    this._observableCategory.next(this._category);
+    this.storeData();
+  }
+
+  removePaymant(rmCash: ICash) {
+    /* update cash*/
+    this._category.cash.map((cash: ICash) => {
+      if (cash.key == rmCash.key) {
+        cash.isdeleted = rmCash.isdeleted;
+      }
+    });
+    /* update category */
+    this._list.map((category: ICategory) => {
+      if (category.key == rmCash.category) {
+        category = this._category;
+      }
+    });
+    this.storeData();
+  }
+
+  removeCategory(rmCategory: ICategory) {
+    this._list.map((category: ICategory) => {
+      if (category.key == rmCategory.key) {
+        category.isdeleted = rmCategory.isdeleted;
+      }
+    });
+    this._observableList.next(this._list);
+    this.storeData();
   }
 
   addCategory(category: ICategory) {
-    let data = JSON.parse(this.localStorage.getItem('categories'));
-    var length = data.length;
+    var length = this._list.length;
     category.key = length;
-    data[length] = category;
-    this.trackChanges();
-    this.setData(data);
+    this._list.push(category);
+    this._observableList.next(this._list);
+    this.storeData();
   }
 
   updateCategory(updatedCategory: ICategory) {
-    let data = JSON.parse(this.localStorage.getItem('categories'));
-    data.map((category: ICategory) => {
+    this._list.map((category: ICategory) => {
       if (category.key == updatedCategory.key) {
         category.title = updatedCategory.title;
         category.rating = updatedCategory.rating;
         category.createdate = updatedCategory.createdate;
       }
     });
-    this.trackChanges();
-    this.setData(data);
+    this._observableList.next(this._list);
+    this.storeData();
   }
 
   trackChanges(get: boolean = true): void {
@@ -102,25 +122,9 @@ export class AdService {
     this.getCategories()
   }
 
-
-  editAd(key: string, uid: string): void {
-    // const ob = this.db.object<Category>('/' + uid + '/category/' + key + '/');
-    // return ob;
-  }
-
-  createAd(uid: string, data: any) {
-    //return this.db.list('/' + uid + '/category').push(data);
-  }
-
-
-
-  setCashs(key: number): void {
-    this._cashList = [];
-    this._list.map((category: ICategory) => {
-      if (category.key == key)
-        this._cashList = category.cash;
-    });
-    this._observableCashList.next(this._cashList);
+  setCashs(category: ICategory): void {
+    this._category = category;
+    this._observableCategory.next(this._category);
   }
 
   getCategories(): void {
@@ -129,28 +133,29 @@ export class AdService {
     const thisMonth = new Date(now.getFullYear() - 2, now.getMonth(), 1, 0, 0, 0, 0);
     const thisYear = new Date(now.getFullYear() - 2, 0, 1, 0, 0, 0, 0);
     const data = JSON.parse(this.localStorage.getItem('categories'));
+
     if (data) {
       data.map((x: ICategory) => {
-        let sum = 0;
-        const cashMonth = x.cash.filter(function(el) {
-          if (new Date(el.createdate) >= thisMonth) {
-            return el;
-          }
-        });
-        cashMonth.map(y => {
-          sum += y.total;
-        });
-        x.sumMonth = sum;
-        sum = 0;
-        const cashYear = x.cash.filter(function(el) {
-          if (new Date(el.createdate) >= thisYear) {
-            return el;
-          }
-        });
-        cashYear.map(y => {
-          sum += y.total;
-        });
-        x.sumYear = sum;
+        // let sum = 0;
+        // const cashMonth = x.cash.filter(function(el) {
+        //   if (new Date(el.createdate) >= thisMonth) {
+        //     return el;
+        //   }
+        // });
+        // cashMonth.map(y => {
+        //   sum += y.total;
+        // });
+        // x.sumMonth = sum;
+        // sum = 0;
+        // const cashYear = x.cash.filter(function(el) {
+        //   if (new Date(el.createdate) >= thisYear) {
+        //     return el;
+        //   }
+        // });
+        // cashYear.map(y => {
+        //   sum += y.total;
+        // });
+        // x.sumYear = sum;
         /* add to list */
         this._list.push(x);
       });

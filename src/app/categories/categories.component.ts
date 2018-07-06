@@ -10,16 +10,19 @@ import { Observable } from "rxjs";
 import { ICategory } from "../category";
 import { ICash } from '../cash';
 
+const ratingSelection = ['Unbestimmt','Weniger','Manchmal','Nicht so oft','Etwas öffters','Oft'];
+
 @Component({
   selector: 'categories',
   templateUrl: './categories.component.html',
   styleUrls: ['./categories.component.css']
 })
 export class CategoriesComponent {
-  displayedColumns = ['title', 'sumYear', 'sumMonth'];
+  displayedColumns = ['title', 'rating'];
   dataSource: MatTableDataSource<ICash>;
 
   private _observableList: Observable<ICategory[]>
+  private _category: ICategory;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -32,7 +35,10 @@ export class CategoriesComponent {
     db.getCategories();
 
     this._observableList.subscribe((data: any) => {
-      this.dataSource.data = data;
+      this.dataSource.data = data.filter(function(o) {
+        if (o.isdeleted == false)
+          return o;
+      });
     });
   }
 
@@ -48,7 +54,11 @@ export class CategoriesComponent {
   }
 
   openPayments(item: ICategory) {
-    this.db.setCashs(item.key);
+    this.db.setCashs(item);
+  }
+
+  print(index: number) {
+    return ratingSelection[index];
   }
 
   addCategory() {
@@ -60,6 +70,7 @@ export class CategoriesComponent {
     dialogRef.afterClosed().subscribe((category: ICategory) => {
       if (category != undefined) {
         category.cash = [];
+        category.isdeleted = false;
         this.db.addCategory(category);
       }
     });
@@ -120,7 +131,8 @@ export class CategoryComponent {
     deleteDialogRef.afterClosed().subscribe((b: boolean) => {
       if (b) {
         this.editDialogRef.close(false);
-        this.db.removeCategory(this.data.key);
+        this.data.isdeleted = true;
+        this.db.removeCategory(this.data);
       }
     });
   }

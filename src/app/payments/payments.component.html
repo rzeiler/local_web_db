@@ -3,7 +3,7 @@
     <input matInput [disabled]="!_hasCategory"  (keyup)="applyFilter($event.target.value)" placeholder="Filter">
   </mat-form-field>
   <span class="app-space"></span>
-  <button [disabled]="!_hasCategory" color="warn" mat-mini-fab><mat-icon>add</mat-icon></button>
+  <button [disabled]="!_hasCategory" color="warn" mat-mini-fab  (click)="addPayment()" ><mat-icon>add</mat-icon></button>
 </div>
 <div class="marg mat-elevation-z8">
   <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">

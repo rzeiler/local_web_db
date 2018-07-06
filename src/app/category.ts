@@ -5,7 +5,6 @@ export interface ICategory {
   title: string;
   createdate: number;
   rating: number;
+  isdeleted:boolean;
   cash: ICash[];
-  sumYear: number;
-  sumMonth: number;
 }

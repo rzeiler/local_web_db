@@ -20,19 +20,25 @@ export class PaymentsComponent {
   dataSource: MatTableDataSource<ICash>;
 
   private _hasCategory: boolean = false;
+  private _category: ICategory;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(private db: AdService, public dialog: MatDialog) {
     this.dataSource = new MatTableDataSource();
-    db.cashList.subscribe((data: ICash[]) => {
-      this._hasCategory = false;
+
+    db.category.subscribe((data: any) => {
       if (data != null) {
         this._hasCategory = true;
-        this.dataSource.data = data;
+        this._category = data;
+        this.dataSource.data = data.cash.filter(function(o) {
+          if (o.isdeleted == false)
+            return o;
+        });
       }
     });
+
   }
 
   ngAfterViewInit() {
@@ -46,15 +52,29 @@ export class PaymentsComponent {
     this.dataSource.filter = filterValue;
   }
 
+  addPayment() {
+    const addDialogRef = this.dialog.open(PaymentComponent, {
+      width: '80%',
+      data: { key: -1, content: '', createdate: new Date(), total: 0, repeat: 0, category: 0 }
+    });
+
+    addDialogRef.afterClosed().subscribe((cash: ICash) => {
+      if (cash != undefined) {
+        this.db.addPaymant(cash);
+      }
+    });
+  }
+
+
   editPayment(item: ICash) {
     const editDialogRef = this.dialog.open(PaymentComponent, {
       width: '80%',
-      data: { key: item.key, content: item.content, createdate: item.createdate, total: item.total, repeat: item.repeat, category: item.category }
+      data: { key: item.key, content: item.content, createdate: item.createdate, total: item.total, repeat: item.repeat, category: this._category.key }
     });
 
     editDialogRef.afterClosed().subscribe((cash: ICash) => {
       if (cash != undefined) {
-        this.db.updateCash(cash);
+        this.db.updatePaymant(cash);
       }
     });
   }
@@ -85,8 +105,6 @@ export class PaymentComponent {
     if (data.key == -1)
       this.title = "Neu";
 
-    console.log("PaymentComponent:", data);
-
     this.adForm.patchValue(data);
     this.adForm.controls['_date'].setValue(new Date(data.createdate));
   }
@@ -94,23 +112,24 @@ export class PaymentComponent {
   private buildForm() {
     this.adForm = this.fb.group({
       content: ['', Validators.required],
-      total: null,
+      total: [null, Validators.required],
       repeat: 0,
       createdate: { value: 0, disabled: true },
       key: null,
-      category: 0,
+      category: [0, Validators.required],
       _date: { value: 0, disabled: false, readonly: true }
     });
   }
 
   confirmDelete() {
     const deleteDialogRef = this.dialog.open(DeletePaymentComponent, {
-      data: { key: this.data.key, title: this.data.content }
+      data: { key: this.data.key, content: this.data.content, createdate: this.data.createdate, total: this.data.total, repeat: this.data.repeat, category: this.data.category }
     });
     deleteDialogRef.afterClosed().subscribe((b: boolean) => {
       if (b) {
         this.editDialogRef.close(false);
-        //this.db.removeCategory(this.data.key);
+        this.data.isdeleted = true;
+        this.db.removePaymant(this.data);
       }
     });
   }
@@ -127,8 +146,8 @@ export class PaymentComponent {
   templateUrl: 'delete.payment.component.html'
 })
 export class DeletePaymentComponent {
-  title: string;
-  constructor(@Inject(MAT_DIALOG_DATA) private data: any) {
-    this.title = data.title;
+  content: string;
+  constructor(@Inject(MAT_DIALOG_DATA) private data: ICash) {
+    this.content = data.content;
   }
 }
