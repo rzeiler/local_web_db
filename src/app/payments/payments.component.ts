@@ -19,13 +19,13 @@ export class PaymentsComponent {
   displayedColumns = ['content', 'createdate', 'total', 'repeat'];
   dataSource: MatTableDataSource<ICash>;
 
-  private _hasCategory: boolean = false;
-  private _category: ICategory;
+  public _hasCategory: boolean = false;
+  public _category: ICategory;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private db: AdService, public dialog: MatDialog) {
+  constructor(public db: AdService, public dialog: MatDialog) {
     this.dataSource = new MatTableDataSource();
 
     db.category.subscribe((data: any) => {
@@ -92,15 +92,15 @@ export class PaymentsComponent {
 export class PaymentComponent {
 
   adForm: FormGroup;
-  private title: string = "Bearbeiten";
+  title: string = "Bearbeiten";
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: ICash,
-    private editDialogRef: MatDialogRef<PaymentComponent>,
-    private dialog: MatDialog,
-    private fb: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) public data: ICash,
+    public editDialogRef: MatDialogRef<PaymentComponent>,
+    public dialog: MatDialog,
+    public fb: FormBuilder,
     public snackBar: MatSnackBar,
-    private db: AdService) {
+    public db: AdService) {
     this.buildForm();
 
     if (data.key == -1)
@@ -110,7 +110,7 @@ export class PaymentComponent {
     this.adForm.controls['_date'].setValue(new Date(data.createdate));
   }
 
-  private buildForm() {
+  public buildForm() {
     this.adForm = this.fb.group({
       content: ['', Validators.required],
       total: [{ value: 0 }, Validators.required],
@@ -148,7 +148,7 @@ export class PaymentComponent {
 })
 export class DeletePaymentComponent {
   content: string;
-  constructor(@Inject(MAT_DIALOG_DATA) private data: ICash) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: ICash) {
     this.content = data.content;
   }
 }

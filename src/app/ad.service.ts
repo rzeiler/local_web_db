@@ -21,6 +21,7 @@ export class AdService {
 
 
   constructor(@Inject('LOCALSTORAGE') private localStorage: any) {
+    this._changes.next(0);
     this.getCategories();
     this.trackChanges(false);
   }
@@ -111,13 +112,13 @@ export class AdService {
   }
 
   trackChanges(get: boolean = true): void {
-    let count = this.localStorage.getItem('tracker');
-    if (count == null)
-      count = 0;
+    let changeCount = this.localStorage.getItem('tracker');
+    if (changeCount == null)
+      changeCount = 0;
     if (get)
-      count++;
-    this.localStorage.setItem('tracker', count);
-    this._changes.next(count);
+      changeCount++;
+    this.localStorage.setItem('tracker', changeCount);
+    this._changes.next(changeCount);
   }
 
   setData(_list: string) {

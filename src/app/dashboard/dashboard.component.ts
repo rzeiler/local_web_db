@@ -9,13 +9,13 @@ import { BehaviorSubject, Observable, Subscription } from "rxjs";
 })
 export class DashboardComponent {
 
-  private count: Observable<number>;
-  private matBadgeHidden: boolean = true;
+  count: Observable<number>;
+  matBadgeHidden: boolean = true;
 
-  constructor(@Inject('LOCALSTORAGE') private localStorage: any, private db: AdService) {
+  constructor(@Inject('LOCALSTORAGE') public localStorage: any, public db: AdService) {
     this.count = db.changes;
-    this.count.subscribe((count: number) => {
-      if (count > 0)
+    this.count.subscribe((c: number) => {
+      if (c > 0)
         this.matBadgeHidden = false;
     });
   }

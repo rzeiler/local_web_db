@@ -23,14 +23,14 @@ export class CategoriesComponent implements OnInit {
   displayedColumns = ['title'];
   dataSource: MatTableDataSource<ICategory>;
 
-  private _observableList: Observable<ICategory[]>;
-  private _category: ICategory;
+  public _observableList: Observable<ICategory[]>;
+  public _category: ICategory;
 
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private db: AdService, public dialog: MatDialog) {
+  constructor(public db: AdService, public dialog: MatDialog) {
 
     this.dataSource = new MatTableDataSource();
     this._observableList = this.db.observableList;
@@ -129,15 +129,15 @@ export class CategoriesComponent implements OnInit {
 export class CategoryComponent {
 
   adForm: FormGroup;
-  private title: string = "Bearbeiten";
+  title: string = "Bearbeiten";
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: ICategory,
-    private editDialogRef: MatDialogRef<CategoryComponent>,
-    private dialog: MatDialog,
-    private fb: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) public data: ICategory,
+    public editDialogRef: MatDialogRef<CategoryComponent>,
+    public dialog: MatDialog,
+    public fb: FormBuilder,
     public snackBar: MatSnackBar,
-    private db: AdService) {
+    public db: AdService) {
     this.buildForm();
 
     if (data.key == -1)
@@ -147,7 +147,7 @@ export class CategoryComponent {
     this.adForm.controls['_date'].setValue(new Date(data.createdate));
   }
 
-  private buildForm() {
+  public buildForm() {
     this.adForm = this.fb.group({
       title: ['', Validators.required],
       rating: null,
@@ -183,7 +183,7 @@ export class CategoryComponent {
 })
 export class DeleteCategoryComponent {
   title: string;
-  constructor(@Inject(MAT_DIALOG_DATA) private data: any) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
     this.title = data.title;
   }
 }

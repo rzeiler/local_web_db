@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "dist/finaceflow",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
