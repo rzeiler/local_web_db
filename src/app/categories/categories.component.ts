@@ -1,10 +1,12 @@
-import { Component, ViewChild, Inject } from '@angular/core';
+import { Component, ViewChild, Inject, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { BehaviorSubject, Observable, Subscription } from "rxjs";
+import { BehaviorSubject, Observable, of, Subject } from "rxjs";
+
+import { delay, share } from 'rxjs/operators';
 
 import { AdService } from '../ad.service';
 import { ICategory } from "../category";
@@ -17,14 +19,13 @@ const ratingSelection = ['Unbestimmt', 'Weniger', 'Manchmal', 'Nicht so oft', 'E
   templateUrl: './categories.component.html',
   styleUrls: ['./categories.component.css']
 })
-export class CategoriesComponent {
-  displayedColumns = ['title', 'rating'];
+export class CategoriesComponent implements OnInit {
+  displayedColumns = ['title'];
   dataSource: MatTableDataSource<ICategory>;
 
   private _observableList: Observable<ICategory[]>;
   private _category: ICategory;
-  private totalCostYear: BehaviorSubject<number> = new BehaviorSubject(0);
-  private totalCostMonth: BehaviorSubject<number> = new BehaviorSubject(0);
+
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -32,18 +33,20 @@ export class CategoriesComponent {
   constructor(private db: AdService, public dialog: MatDialog) {
 
     this.dataSource = new MatTableDataSource();
-    this._observableList = db.observableList;
-
-    db.getCategories();
+    this._observableList = this.db.observableList;
 
     this._observableList.subscribe((data: any) => {
-      this.totalCostYear.next(0);
-      this.totalCostMonth.next(0);
       this.dataSource.data = data.filter(function(o) {
         if (o.isdeleted == false)
           return o;
       });
     });
+  }
+
+
+
+  ngOnInit() {
+    this.db.getCategories();
   }
 
   ngAfterViewInit() {
@@ -67,29 +70,25 @@ export class CategoriesComponent {
 
   costByCategorMonth(category: ICategory): number {
     var now = new Date();
-    const thisMonth = new Date(now.getFullYear() - 2, now.getMonth(), 1, 0, 0, 0, 0);
+    const thisMonth = new Date(now.getFullYear(), now.getMonth(), 1, 0, 0, 0, 0);
     const payments = category.cash.filter(function(b) { return (!b.isdeleted) ? b : null });
     const yearPayments = payments.filter(function(b) {
       if (b.createdate >= thisMonth.getTime())
         return b;
     });
     let r = yearPayments.map(t => t.total).reduce((acc, value) => acc + value, 0);
-    const cv = this.totalCostMonth.getValue();
-    this.totalCostMonth.next(cv + r);
-    return r;
+      return r;
   }
 
   costByCategoryYear(category: ICategory): number {
     var now = new Date();
-    const thisYear = new Date(now.getFullYear() - 2, 0, 1, 0, 0, 0, 0);
+    const thisYear = new Date(now.getFullYear(), 0, 1, 0, 0, 0, 0);
     const payments = category.cash.filter(function(b) { return (!b.isdeleted) ? b : null });
     const yearPayments = payments.filter(function(b) {
       if (b.createdate >= thisYear.getTime())
         return b;
     });
     let r = yearPayments.map(t => t.total).reduce((acc, value) => acc + value, 0);
-    const cv = this.totalCostYear.getValue();
-    this.totalCostYear.next(cv + r);
     return r;
   }
 

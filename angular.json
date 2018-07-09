@@ -31,12 +31,10 @@
           },
           "configurations": {
             "production": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ],
+              "fileReplacements": [{
+                "replace": "src/environments/environment.ts",
+                "with": "src/environments/environment.prod.ts"
+              }],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -58,6 +56,9 @@
           "configurations": {
             "production": {
               "browserTarget": "finaceflow:build:production"
+            },
+            "de": {
+              "browserTarget": "finaceflow:build:de"
             }
           }
         },
@@ -93,7 +94,8 @@
               "src/tsconfig.spec.json"
             ],
             "exclude": [
-              "**/node_modules/**"
+              "**/node_modules/**",
+              "**/dist/**"
             ]
           }
         }
@@ -120,7 +122,8 @@
           "options": {
             "tsConfig": "e2e/tsconfig.e2e.json",
             "exclude": [
-              "**/node_modules/**"
+              "**/node_modules/**",
+              "**/dist/**"
             ]
           }
         }

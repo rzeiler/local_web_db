@@ -66,7 +66,6 @@ export class PaymentsComponent {
     });
   }
 
-
   editPayment(item: ICash) {
     const editDialogRef = this.dialog.open(PaymentComponent, {
       width: '80%',
@@ -114,7 +113,7 @@ export class PaymentComponent {
   private buildForm() {
     this.adForm = this.fb.group({
       content: ['', Validators.required],
-      total: [null, Validators.required],
+      total: [{ value: 0 }, Validators.required],
       repeat: 0,
       createdate: { value: 0, disabled: true },
       key: null,

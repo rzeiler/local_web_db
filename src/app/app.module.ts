@@ -3,11 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { registerLocaleData } from '@angular/common';
-import localeFr from '@angular/common/locales/de';
 
-// the second parameter 'fr' is optional
-registerLocaleData(localeFr, 'de');
 
 /* material */
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -31,6 +27,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTableModule } from '@angular/material/table';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatPaginatorModule, MatSortModule } from '@angular/material';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 /* comp */
 import { AppComponent } from './app.component';
@@ -43,6 +40,10 @@ import { SettingsComponent, ImportComponent } from './settings/settings.componen
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
+import { registerLocaleData } from '@angular/common';
+import localeDe from '@angular/common/locales/de';
+
+registerLocaleData(localeDe, 'de');
 
 const routes: Routes = [
   { path: '', component: DashboardComponent },
@@ -88,6 +89,7 @@ const routes: Routes = [
     MatGridListModule,
     MatTableModule,
     MatChipsModule,
+    MatSidenavModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     MatPaginatorModule,
     MatSortModule
@@ -95,7 +97,7 @@ const routes: Routes = [
   entryComponents: [ImportComponent, CategoryComponent, DeleteCategoryComponent, PaymentComponent, DeletePaymentComponent],
   providers: [
     MatNativeDateModule,
-    { provide: LOCALE_ID, useValue: 'de-DE' },
+    { provide: LOCALE_ID, useValue: 'de' },
     { provide: 'LOCALSTORAGE', useFactory: getLocalStorage }
   ],
   bootstrap: [AppComponent]

@@ -32,6 +32,4 @@ export class DashboardComponent {
     linkElement.setAttribute('download', exportFileDefaultName);
     linkElement.click();
   }
-
-
-}
+ }

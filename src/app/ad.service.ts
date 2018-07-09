@@ -10,19 +10,9 @@ export class AdService {
 
   private _list: ICategory[] = [];
   private _observableList: BehaviorSubject<ICategory[]> = new BehaviorSubject([]);
-
-
-
-  //private _cashList: ICash[] = [];
-  private _observableCashList: BehaviorSubject<ICash[]> = new BehaviorSubject([]);
-
-
-  private _changes: BehaviorSubject<number> = new BehaviorSubject(0);
-
   get observableList(): Observable<ICategory[]> { return this._observableList.asObservable() }
 
-  //  get cashList(): Observable<ICash[]> { return this._observableCashList.asObservable() }
-
+  private _changes: BehaviorSubject<number> = new BehaviorSubject(0);
   get changes(): Observable<number> { return this._changes.asObservable() }
 
   private _category: ICategory;
@@ -60,7 +50,7 @@ export class AdService {
       if (cash.key == updatetedCash.key) {
         cash.content = updatetedCash.content;
         cash.createdate = updatetedCash.createdate;
-        cash.total = updatetedCash.total;
+        cash.total = parseFloat(updatetedCash.total.toString());
         cash.repeat = updatetedCash.repeat;
       }
     });
@@ -112,7 +102,7 @@ export class AdService {
     this._list.map((category: ICategory) => {
       if (category.key == updatedCategory.key) {
         category.title = updatedCategory.title;
-        category.rating =  updatedCategory.rating;
+        category.rating = updatedCategory.rating;
         category.createdate = updatedCategory.createdate;
       }
     });

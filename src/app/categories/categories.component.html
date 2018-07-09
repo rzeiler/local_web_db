@@ -2,9 +2,6 @@
   <mat-form-field class="marg block">
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
   </mat-form-field>
-
-
-
   <span class="app-space"></span>
   <button color="primary" mat-mini-fab (click)="addCategory()"><mat-icon>add</mat-icon></button>
 </div>
@@ -16,23 +13,19 @@
         <div>
           {{row.title}}
           <span>
-            {{costByCategoryYear(row) | currency }}<br> {{costByCategorMonth(row) | currency }}
+            {{costByCategoryYear(row) | currency:'EUR':'symbol':'1.2':'de' }}<br> {{costByCategorMonth(row) | currency:'EUR':'symbol':'1.2':'de' }}
           </span>
         </div>
       </mat-cell>
       <mat-footer-cell *matFooterCellDef>
-        <div class="">
-            {{totalCostYear | async | currency}}
+        <div>
+          {{(totalCostYear) | currency:'EUR':'symbol':'1.2':'de'}}
         </div>
-        <div class="">
-            {{totalCostMonth | async | currency}}
+
+        <div>
+          {{(totalCostMonth) | currency:'EUR':'symbol':'1.2':'de'}}
         </div>
       </mat-footer-cell>
-    </ng-container>
-    <ng-container matColumnDef="rating">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Wichtig?</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{print(row.rating)}}</mat-cell>
-      <mat-footer-cell *matFooterCellDef></mat-footer-cell>
     </ng-container>
     <mat-header-row *matHeaderRowDef="displayedColumns">
     </mat-header-row>
