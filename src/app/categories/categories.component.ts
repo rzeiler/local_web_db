@@ -1,4 +1,4 @@
-import { Component, ViewChild, Inject, OnInit } from '@angular/core';
+import { Component, ViewChild, Inject, OnInit, HostListener } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
@@ -22,6 +22,7 @@ const ratingSelection = ['Unbestimmt', 'Weniger', 'Manchmal', 'Nicht so oft', 'E
 export class CategoriesComponent implements OnInit {
   displayedColumns = ['option', 'title'];
   dataSource: MatTableDataSource<ICategory>;
+  mySize = "auto";
 
   public _observableList: Observable<ICategory[]>;
   public _category: ICategory;
@@ -41,8 +42,17 @@ export class CategoriesComponent implements OnInit {
           return o;
       });
     });
+
+    this.onResize(null);
   }
 
+
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    console.log(window.innerHeight);
+
+  }
 
 
   ngOnInit() {

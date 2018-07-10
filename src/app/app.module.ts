@@ -28,6 +28,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatPaginatorModule, MatSortModule } from '@angular/material';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import {CdkTableModule} from '@angular/cdk/table';
 
 /* comp */
 import { AppComponent } from './app.component';
@@ -66,6 +67,7 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes),
     BrowserAnimationsModule,
+    CdkTableModule,
     BrowserModule,
     MatToolbarModule,
     MatMenuModule,

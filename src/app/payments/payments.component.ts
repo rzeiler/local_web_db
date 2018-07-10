@@ -19,6 +19,8 @@ export class PaymentsComponent {
   displayedColumns = ['option', 'content', 'createdate', 'total', 'repeat'];
   dataSource: MatTableDataSource<ICash>;
 
+  mySize = "auto";
+
   public _hasCategory: boolean = false;
   public _category: ICategory;
 

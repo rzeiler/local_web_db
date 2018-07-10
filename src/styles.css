@@ -19,6 +19,22 @@ html, body {
   margin: 5px 10px 5px 10px;
 }
 
+.scroll {
+  overflow: auto;
+}
+
+.scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+.scroll::-webkit-scrollbar-track {
+  background: #ddd;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  background: #666;
+}
+
 /* .mat-app-background {
   background-color: rgba(30, 30, 30, 0.6);
 } */
