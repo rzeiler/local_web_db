@@ -20,7 +20,7 @@ const ratingSelection = ['Unbestimmt', 'Weniger', 'Manchmal', 'Nicht so oft', 'E
   styleUrls: ['./categories.component.css']
 })
 export class CategoriesComponent implements OnInit {
-  displayedColumns = ['title'];
+  displayedColumns = ['option', 'title'];
   dataSource: MatTableDataSource<ICategory>;
 
   public _observableList: Observable<ICategory[]>;
@@ -77,7 +77,7 @@ export class CategoriesComponent implements OnInit {
         return b;
     });
     let r = yearPayments.map(t => t.total).reduce((acc, value) => acc + value, 0);
-      return r;
+    return r;
   }
 
   costByCategoryYear(category: ICategory): number {
@@ -107,6 +107,7 @@ export class CategoriesComponent implements OnInit {
         this.db.addCategory(category);
       }
     });
+    return false;
   }
 
   editCategory(item: ICategory) {
@@ -119,6 +120,7 @@ export class CategoriesComponent implements OnInit {
       if (category != undefined)
         this.db.updateCategory(category);
     });
+    return false;
   }
 
 }

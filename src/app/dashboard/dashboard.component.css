@@ -1,6 +1,8 @@
 .container {
   display: grid;
   grid-template-columns: 1fr 2fr;
+  grid-template-rows: auto;
+  height: 100vh;
 }
 
 .app-space {
@@ -11,13 +13,13 @@ h1 {
   font-family: 'Pacifico', sans-serif;
   font-size: 120%;
 }
-h1 .material-icons{
+
+h1 .material-icons {
   font-size: 120%;
 }
 
-
-.mat-toolbar{
-    background-color:  transparent;
+.mat-toolbar {
+  background-color: transparent;
 }
 
 /*

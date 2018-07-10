@@ -9,6 +9,9 @@
 .mat-cell div span {
   display: block;
   font-size: 70%;
-
   color: #69f0ae;
+}
+
+.mat-column-option {
+  flex: 0 0 40px;
 }

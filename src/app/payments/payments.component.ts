@@ -16,7 +16,7 @@ import { ICash } from '../cash';
   styleUrls: ['./payments.component.css']
 })
 export class PaymentsComponent {
-  displayedColumns = ['content', 'createdate', 'total', 'repeat'];
+  displayedColumns = ['option', 'content', 'createdate', 'total', 'repeat'];
   dataSource: MatTableDataSource<ICash>;
 
   public _hasCategory: boolean = false;

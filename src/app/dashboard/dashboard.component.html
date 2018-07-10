@@ -1,24 +1,25 @@
-<mat-toolbar>
-  <h1>Finace Flow</h1>
-  <span class="app-space"></span>
-  <ng-content></ng-content>
-  <mat-menu  #appMenu="matMenu">
-    <button mat-menu-item [routerLink]="['settings']">
-      <mat-icon>backup</mat-icon>
-      <span>Einstellungen</span>
-    </button>
-    <button (click)="exportToJsonFile()" mat-menu-item >
-      <mat-icon>save</mat-icon>
-      <span matBadge="{{this.count | async}}" matBadgeColor="warn" matBadgePosition="above after" >Daten exportieren</span>
-    </button>
-  </mat-menu>
-  <button mat-icon-button [matMenuTriggerFor]="appMenu" matBadgeColor="accent" matBadgeDescription="Gemachte Änderungen" matBadge="{{this.count | async}}" [matBadgeHidden]="matBadgeHidden" matBadgePosition="above after"  ><mat-icon>more_vert</mat-icon></button>
-</mat-toolbar>
 <div class="container">
-  <div>
+  <div class="mat-drawer mat-elevation-z8">
+    <mat-toolbar>
+      <h1>Finace Flow</h1>
+    </mat-toolbar>
     <categories></categories>
   </div>
   <div>
-     <payments></payments>
+    <mat-toolbar>
+      <span class="app-space"></span>
+      <mat-menu #appMenu="matMenu">
+        <button mat-menu-item [routerLink]="['settings']">
+          <mat-icon>backup</mat-icon>
+          <span>Einstellungen</span>
+        </button>
+        <button (click)="exportToJsonFile()" mat-menu-item>
+          <mat-icon>save</mat-icon>
+          <span matBadge="{{this.count | async}}" matBadgeColor="warn" matBadgePosition="above after" >Daten exportieren</span>
+        </button>
+      </mat-menu>
+      <button mat-icon-button [matMenuTriggerFor]="appMenu" matBadgeColor="accent" matBadgeDescription="Gemachte Änderungen" matBadge="{{this.count | async}}" [matBadgeHidden]="matBadgeHidden" matBadgePosition="above after"><mat-icon>more_vert</mat-icon></button>
+    </mat-toolbar>
+    <payments></payments>
   </div>
 </div>

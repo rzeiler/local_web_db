@@ -5,3 +5,15 @@
 .mat-mini-fab {
   margin: 60px 20px -60px 10px;
 }
+
+.mat-column-option {
+  flex: 0 0 40px;
+}
+
+.mat-column-createdate, .mat-column-repeat{
+  flex: 0 0 80px;
+}
+
+.mat-column-total {
+  flex: 0 0 90px;
+}

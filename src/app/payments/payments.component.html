@@ -7,6 +7,14 @@
 </div>
 <div class="marg mat-elevation-z8">
   <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
+    <ng-container matColumnDef="option">
+      <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <button mat-icon-button (click)="editPayment(row)"><mat-icon>edit</mat-icon></button>
+      </mat-cell>
+      <mat-footer-cell *matFooterCellDef>
+      </mat-footer-cell>
+    </ng-container>
     <ng-container matColumnDef="content">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Beschreibung</mat-header-cell>
       <mat-cell *matCellDef="let row"> {{row.content}} </mat-cell>
@@ -28,7 +36,7 @@
       <mat-footer-cell *matFooterCellDef> </mat-footer-cell>
     </ng-container>
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;" (dblclick)="editPayment(row)"></mat-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" ></mat-row>
     <mat-footer-row *matFooterRowDef="displayedColumns"></mat-footer-row>
   </mat-table>
   <mat-paginator #paginator [length]="dataSource.data.length" [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[10, 20, 40]">
