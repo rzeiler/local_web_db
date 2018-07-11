@@ -1,4 +1,4 @@
-import { Component, ViewChild, Inject, HostListener } from '@angular/core';
+import { Component, ViewChild, Inject, HostListener, ElementRef } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';

@@ -27,13 +27,8 @@ export class CategoriesComponent implements OnInit {
   public _observableList: Observable<ICategory[]>;
   public _category: ICategory;
 
-
-
   @ViewChild('csc') div: ElementRef;
-
- 
   @ViewChild('sbw') sbw: ElementRef;
-
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
