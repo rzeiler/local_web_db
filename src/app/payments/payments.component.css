@@ -4,6 +4,7 @@
 
 .mat-mini-fab {
   margin: 60px 20px -60px 10px;
+  z-index: 101;
 }
 
 .mat-column-option {

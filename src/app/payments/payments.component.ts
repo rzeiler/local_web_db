@@ -36,11 +36,16 @@ export class PaymentsComponent {
     db.category.subscribe((data: any) => {
       if (data != null) {
         this._hasCategory = true;
+
+
         this._category = data;
         this.dataSource.data = data.cash.filter(function(o) {
           if (o.isdeleted == false)
             return o;
         });
+        setTimeout(function() {
+          this.onResize(null);
+        }, 2000);
       }
     });
 
@@ -48,9 +53,9 @@ export class PaymentsComponent {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    var hasScrollbar = (this.sbw.nativeElement.offsetHeight - 50) < this.div.nativeElement.scrollHeight;
+    var hasScrollbar = (this.sbw.nativeElement.offsetHeight - 150) < this.div.nativeElement.scrollHeight;
     if (hasScrollbar) {
-      this.mySize = (this.sbw.nativeElement.offsetHeight - 50) + "px";
+      this.mySize = (this.sbw.nativeElement.offsetHeight - 150) + "px";
     } else {
       this.mySize = "auto";
     }

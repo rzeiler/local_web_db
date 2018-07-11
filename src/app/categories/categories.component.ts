@@ -6,6 +6,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { BehaviorSubject, Observable, of, Subject } from "rxjs";
 
+import { CdkTableModule } from '@angular/cdk/table';
+
 import { delay, share } from 'rxjs/operators';
 
 import { AdService } from '../ad.service';
@@ -49,9 +51,9 @@ export class CategoriesComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    var hasScrollbar = (this.sbw.nativeElement.offsetHeight - 50) < this.div.nativeElement.scrollHeight;
+    var hasScrollbar = (this.sbw.nativeElement.offsetHeight - 150) < this.div.nativeElement.scrollHeight;
     if (hasScrollbar) {
-      this.mySize = (this.sbw.nativeElement.offsetHeight - 50) + "px";
+      this.mySize = (this.sbw.nativeElement.offsetHeight - 150) + "px";
     } else {
       this.mySize = "auto";
     }
