@@ -1,4 +1,4 @@
-import { Component, ViewChild, Inject, OnInit, HostListener } from '@angular/core';
+import { Component, ViewChild, Inject, OnInit, HostListener, ElementRef } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
@@ -28,6 +28,13 @@ export class CategoriesComponent implements OnInit {
   public _category: ICategory;
 
 
+
+  @ViewChild('csc') div: ElementRef;
+
+ 
+  @ViewChild('sbw') sbw: ElementRef;
+
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -35,7 +42,6 @@ export class CategoriesComponent implements OnInit {
 
     this.dataSource = new MatTableDataSource();
     this._observableList = this.db.observableList;
-
     this._observableList.subscribe((data: any) => {
       this.dataSource.data = data.filter(function(o) {
         if (o.isdeleted == false)
@@ -43,17 +49,18 @@ export class CategoriesComponent implements OnInit {
       });
     });
 
-    this.onResize(null);
+
   }
-
-
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    console.log(window.innerHeight);
-
+    var hasScrollbar = (this.sbw.nativeElement.offsetHeight - 50) < this.div.nativeElement.scrollHeight;
+    if (hasScrollbar) {
+      this.mySize = (this.sbw.nativeElement.offsetHeight - 50) + "px";
+    } else {
+      this.mySize = "auto";
+    }
   }
-
 
   ngOnInit() {
     this.db.getCategories();
@@ -62,6 +69,8 @@ export class CategoriesComponent implements OnInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    /*  */
+    this.onResize(null);
   }
 
   applyFilter(filterValue: string) {

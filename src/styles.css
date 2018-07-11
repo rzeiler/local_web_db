@@ -24,7 +24,7 @@ html, body {
 }
 
 .scroll::-webkit-scrollbar {
-  width: 5px;
+  width: 10px;
 }
 
 .scroll::-webkit-scrollbar-track {
@@ -34,6 +34,11 @@ html, body {
 .scroll::-webkit-scrollbar-thumb {
   background: #666;
 }
+.sbw{
+ overflow:  hidden;
+ height: calc(100vh - 143px);
+}
+
 
 /* .mat-app-background {
   background-color: rgba(30, 30, 30, 0.6);

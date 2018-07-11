@@ -5,9 +5,9 @@
   <span class="app-space"></span>
   <button color="primary" mat-mini-fab (click)="addCategory()"><mat-icon>add</mat-icon></button>
 </div>
-<div class="marg mat-elevation-z8">
-  <div [style.height]="mySize" class="scroll">
-    <div class="">
+<div #sbw class="sbw">
+  <div class="marg mat-elevation-z8">
+    <div [style.height]="mySize" #csc class="scroll">
       <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
         <ng-container matColumnDef="option">
           <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>

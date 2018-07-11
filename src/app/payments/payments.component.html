@@ -1,13 +1,13 @@
-<div [style.height]="mySize">
-  <div style="display: flex;">
-    <mat-form-field class="marg block">
-      <input matInput [disabled]="!_hasCategory" (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-    </mat-form-field>
-    <span class="app-space"></span>
-    <button [disabled]="!_hasCategory" color="warn" mat-mini-fab (click)="addPayment()"><mat-icon>add</mat-icon></button>
-  </div>
+<div style="display: flex;">
+  <mat-form-field class="marg block">
+    <input matInput [disabled]="!_hasCategory" (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+  </mat-form-field>
+  <span class="app-space"></span>
+  <button [disabled]="!_hasCategory" color="warn" mat-mini-fab (click)="addPayment()"><mat-icon>add</mat-icon></button>
+</div>
+<div #sbw class="sbw">
   <div class="marg mat-elevation-z8">
-    <div class="scroll ">
+    <div [style.height]="mySize" #csc class="scroll">
       <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
         <ng-container matColumnDef="option">
           <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>

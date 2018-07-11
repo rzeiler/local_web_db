@@ -1,4 +1,4 @@
-import { Component, ViewChild, Inject } from '@angular/core';
+import { Component, ViewChild, Inject, HostListener } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
@@ -24,6 +24,9 @@ export class PaymentsComponent {
   public _hasCategory: boolean = false;
   public _category: ICategory;
 
+  @ViewChild('csc') div: ElementRef;
+  @ViewChild('sbw') sbw: ElementRef;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -43,9 +46,23 @@ export class PaymentsComponent {
 
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    var hasScrollbar = (this.sbw.nativeElement.offsetHeight - 50) < this.div.nativeElement.scrollHeight;
+    if (hasScrollbar) {
+      this.mySize = (this.sbw.nativeElement.offsetHeight - 50) + "px";
+    } else {
+      this.mySize = "auto";
+    }
+  }
+
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+
+    /*  */
+    this.onResize(null);
+
   }
 
   applyFilter(filterValue: string) {
