@@ -5,44 +5,49 @@
   <span class="app-space"></span>
   <button [disabled]="!_hasCategory" color="warn" mat-mini-fab (click)="addPayment()"><mat-icon>add</mat-icon></button>
 </div>
-<div #sbw class="sbw">
-  <div class="marg mat-elevation-z8">
-    <div [style.height]="mySize" #csc class="scroll">
-      <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
-        <ng-container matColumnDef="option">
-          <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
-          <mat-cell *matCellDef="let row">
-            <button mat-icon-button (click)="editPayment(row)"><mat-icon>edit</mat-icon></button>
-          </mat-cell>
-          <mat-footer-cell *matFooterCellDef>
-          </mat-footer-cell>
-        </ng-container>
-        <ng-container matColumnDef="content">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>Beschreibung</mat-header-cell>
-          <mat-cell *matCellDef="let row"> {{row.content}} </mat-cell>
-          <mat-footer-cell *matFooterCellDef> </mat-footer-cell>
-        </ng-container>
-        <ng-container matColumnDef="createdate">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>Datum</mat-header-cell>
-          <mat-cell *matCellDef="let row">{{row.createdate | date:'dd.MM.yyyy'}}</mat-cell>
-          <mat-footer-cell *matFooterCellDef> </mat-footer-cell>
-        </ng-container>
-        <ng-container matColumnDef="total">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>Summe</mat-header-cell>
-          <mat-cell *matCellDef="let row" [style.color]="row.color">{{row.total | currency:'EUR':'symbol':'1.2':'de'}}</mat-cell>
-          <mat-footer-cell *matFooterCellDef> Total {{getTotalCost() | currency:'EUR':'symbol':'1.2':'de'}} </mat-footer-cell>
-        </ng-container>
-        <ng-container matColumnDef="repeat">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>Wiederholung?</mat-header-cell>
-          <mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.repeat}} </mat-cell>
-          <mat-footer-cell *matFooterCellDef> </mat-footer-cell>
-        </ng-container>
-        <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        <mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></mat-footer-row>
-      </mat-table>
-    </div>
-    <mat-paginator #paginator [length]="dataSource.data.length" [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[10, 20, 40]">
-    </mat-paginator>
+
+<div class="marg mat-elevation-z8">
+  <div>
+    <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
+      <ng-container matColumnDef="option">
+        <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button mat-icon-button (click)="editPayment(row)"><mat-icon>edit</mat-icon></button>
+        </mat-cell>
+        <mat-footer-cell *matFooterCellDef>
+        </mat-footer-cell>
+      </ng-container>
+      <ng-container matColumnDef="content">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Beschreibung</mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{row.content}} </mat-cell>
+        <mat-footer-cell *matFooterCellDef> </mat-footer-cell>
+      </ng-container>
+      <ng-container matColumnDef="createdate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Datum</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row.createdate | date:'dd.MM.yyyy'}}</mat-cell>
+        <mat-footer-cell *matFooterCellDef> </mat-footer-cell>
+      </ng-container>
+      <ng-container matColumnDef="total">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Summe</mat-header-cell>
+        <mat-cell *matCellDef="let row" [style.color]="row.color">{{row.total | currency:'EUR':'symbol':'1.2':'de'}}</mat-cell>
+        <mat-footer-cell *matFooterCellDef> Total {{getTotalCost() | currency:'EUR':'symbol':'1.2':'de'}} </mat-footer-cell>
+      </ng-container>
+      <ng-container matColumnDef="repeat">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Wiederholung?</mat-header-cell>
+        <mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.repeat}} </mat-cell>
+        <mat-footer-cell *matFooterCellDef> </mat-footer-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      <mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></mat-footer-row>
+    </mat-table>
   </div>
+  <mat-paginator #paginator [length]="dataSource.data.length" [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[10, 20, 40]">
+  </mat-paginator>
 </div>
+<app-graph [data]="data" ></app-graph>
+<mat-card>
+  <div *ngIf="linechart">
+    <canvas id="line" height="300px;" width="700px;">{{ linechart }}</canvas>
+  </div>
+</mat-card>

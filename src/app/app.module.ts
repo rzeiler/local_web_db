@@ -43,6 +43,7 @@ import { environment } from '../environments/environment';
 
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
+import { GraphComponent } from './graph/graph.component';
 
 registerLocaleData(localeDe, 'de');
 
@@ -62,7 +63,8 @@ const routes: Routes = [
     DeleteCategoryComponent,
     PaymentsComponent,
     PaymentComponent,
-    DeletePaymentComponent
+    DeletePaymentComponent,
+    GraphComponent
   ],
   imports: [
     RouterModule.forRoot(routes),

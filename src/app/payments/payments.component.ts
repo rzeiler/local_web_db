@@ -5,6 +5,8 @@ import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
+import { Chart } from 'chart.js';
+
 import { AdService } from '../ad.service';
 import { Observable } from "rxjs";
 import { ICategory } from "../category";
@@ -19,33 +21,111 @@ export class PaymentsComponent {
   displayedColumns = ['option', 'content', 'createdate', 'total', 'repeat'];
   dataSource: MatTableDataSource<ICash>;
 
-  mySize = "auto";
+  data: any;
+
+  linechart = [];
 
   public _hasCategory: boolean = false;
   public _category: ICategory;
-
-  @ViewChild('csc') div: ElementRef;
-  @ViewChild('sbw') sbw: ElementRef;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(public db: AdService, public dialog: MatDialog) {
-    this.dataSource = new MatTableDataSource();
 
+    this.dataSource = new MatTableDataSource();
     db.category.subscribe((data: any) => {
       if (data != null) {
+
         this._hasCategory = true;
-
-
         this._category = data;
+
+        this.data = data.cash;
+        console.log("change", this.data);
         this.dataSource.data = data.cash.filter(function(o) {
           if (o.isdeleted == false)
             return o;
         });
-        setTimeout(function() {
-          this.onResize(null);
-        }, 2000);
+
+
+
+
+        var randomScalingFactor = function() {
+          return Math.round(Math.random() * 100);
+        };
+
+
+
+        let lineconfig = {
+          type: 'line',
+          data: {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            datasets: [{
+              label: 'My First dataset',
+              backgroundColor: 'rgba(255, 159, 64, 0.2)',
+              borderColor: 'rgba(255, 159, 64, 0.4)',
+              data: [
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor()
+              ],
+              fill: false,
+            }, {
+              label: 'My Second dataset',
+              fill: false,
+              backgroundColor: 'rgba(255, 159, 64, 0.2)',
+              borderColor: 'rgba(255, 159, 64, 0.2)',
+              data: [
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor(),
+                randomScalingFactor()
+              ],
+            }]
+          },
+          options: {
+            responsive: false,
+            title: {
+              display: true,
+              text: 'Chart.js Line Chart'
+            },
+            tooltips: {
+              mode: 'index',
+              intersect: false,
+            },
+            hover: {
+              mode: 'nearest',
+              intersect: true
+            },
+            scales: {
+              xAxes: [{
+                display: true,
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Month'
+                }
+              }],
+              yAxes: [{
+                display: true,
+                scaleLabel: {
+                  display: true,
+                  labelString: 'Value'
+                }
+              }]
+            }
+          }
+        }
+
+        this.linechart = new Chart('line', lineconfig);
+
+
       }
     });
 
@@ -53,21 +133,17 @@ export class PaymentsComponent {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    var hasScrollbar = (this.sbw.nativeElement.offsetHeight - 150) < this.div.nativeElement.scrollHeight;
-    if (hasScrollbar) {
-      this.mySize = (this.sbw.nativeElement.offsetHeight - 150) + "px";
-    } else {
-      this.mySize = "auto";
-    }
+    // var hasScrollbar = (this.sbw.nativeElement.offsetHeight - 150) < this.div.nativeElement.scrollHeight;
+    // if (hasScrollbar) {
+    //   this.mySize = (this.sbw.nativeElement.offsetHeight - 150) + "px";
+    // } else {
+    //   this.mySize = "auto";
+    // }
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-
-    /*  */
-    this.onResize(null);
-
   }
 
   applyFilter(filterValue: string) {

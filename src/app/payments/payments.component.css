@@ -18,3 +18,9 @@
 .mat-column-total {
   flex: 0 0 90px;
 }
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 200px 200px;
+}

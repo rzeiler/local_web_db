@@ -37,9 +37,13 @@ export class CategoriesComponent implements OnInit {
 
   constructor(public db: AdService, public dialog: MatDialog) {
 
+    const _self = this;
     this.dataSource = new MatTableDataSource();
     this._observableList = this.db.observableList;
     this._observableList.subscribe((data: any) => {
+      setTimeout(function() {
+        _self.onResize(null);
+      }, 500);
       this.dataSource.data = data.filter(function(o) {
         if (o.isdeleted == false)
           return o;
@@ -51,12 +55,12 @@ export class CategoriesComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    var hasScrollbar = (this.sbw.nativeElement.offsetHeight - 150) < this.div.nativeElement.scrollHeight;
-    if (hasScrollbar) {
-      this.mySize = (this.sbw.nativeElement.offsetHeight - 150) + "px";
-    } else {
-      this.mySize = "auto";
-    }
+    // var hasScrollbar = (this.sbw.nativeElement.offsetHeight - 150) < this.div.nativeElement.scrollHeight;
+    // if (hasScrollbar) {
+    //   this.mySize = (this.sbw.nativeElement.offsetHeight - 150) + "px";
+    // } else {
+    //   this.mySize = "auto";
+    // }
   }
 
   ngOnInit() {
@@ -66,8 +70,6 @@ export class CategoriesComponent implements OnInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    /*  */
-    this.onResize(null);
   }
 
   applyFilter(filterValue: string) {
