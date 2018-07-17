@@ -16,3 +16,9 @@
 .mat-column-option {
   flex: 0 0 40px;
 }
+
+.container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: auto;
+}

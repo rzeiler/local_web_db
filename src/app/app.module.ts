@@ -48,7 +48,7 @@ import { GraphComponent } from './graph/graph.component';
 registerLocaleData(localeDe, 'de');
 
 const routes: Routes = [
-  { path: '', component: DashboardComponent },
+  { path: '', component: CategoriesComponent },
   { path: 'settings', component: SettingsComponent }
 ];
 

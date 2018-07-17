@@ -1,6 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '~@angular/material/prebuilt-themes/pink-bluegrey.css';
 @import "~material-design-icons/iconfont/material-icons.css";
 html, body {
   margin: 0;
@@ -10,6 +10,14 @@ html, body {
   font-family: Raleway;
   color: #333;
 }
+
+
+.color-1 {color: #f1c40f;}
+.color-2 {color: #17a589;}
+.color-3 {color: #2471a3;}
+.color-4 {color: #cb4335;}
+.color-5 {color: #7d3c98;}
+.color-6 {color: #2e86c1;}
 
 * {
   font-family: Raleway;

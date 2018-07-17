@@ -22,8 +22,8 @@ export class PaymentsComponent {
   dataSource: MatTableDataSource<ICash>;
 
   data: any;
-
-  linechart = [];
+  //
+  // linechart = [];
 
   public _hasCategory: boolean = false;
   public _category: ICategory;
@@ -50,80 +50,80 @@ export class PaymentsComponent {
 
 
 
-        var randomScalingFactor = function() {
-          return Math.round(Math.random() * 100);
-        };
-
-
-
-        let lineconfig = {
-          type: 'line',
-          data: {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [{
-              label: 'My First dataset',
-              backgroundColor: 'rgba(255, 159, 64, 0.2)',
-              borderColor: 'rgba(255, 159, 64, 0.4)',
-              data: [
-                randomScalingFactor(),
-                randomScalingFactor(),
-                randomScalingFactor(),
-                randomScalingFactor(),
-                randomScalingFactor(),
-                randomScalingFactor(),
-                randomScalingFactor()
-              ],
-              fill: false,
-            }, {
-              label: 'My Second dataset',
-              fill: false,
-              backgroundColor: 'rgba(255, 159, 64, 0.2)',
-              borderColor: 'rgba(255, 159, 64, 0.2)',
-              data: [
-                randomScalingFactor(),
-                randomScalingFactor(),
-                randomScalingFactor(),
-                randomScalingFactor(),
-                randomScalingFactor(),
-                randomScalingFactor(),
-                randomScalingFactor()
-              ],
-            }]
-          },
-          options: {
-            responsive: false,
-            title: {
-              display: true,
-              text: 'Chart.js Line Chart'
-            },
-            tooltips: {
-              mode: 'index',
-              intersect: false,
-            },
-            hover: {
-              mode: 'nearest',
-              intersect: true
-            },
-            scales: {
-              xAxes: [{
-                display: true,
-                scaleLabel: {
-                  display: true,
-                  labelString: 'Month'
-                }
-              }],
-              yAxes: [{
-                display: true,
-                scaleLabel: {
-                  display: true,
-                  labelString: 'Value'
-                }
-              }]
-            }
-          }
-        }
-
-        this.linechart = new Chart('line', lineconfig);
+        // var randomScalingFactor = function() {
+        //   return Math.round(Math.random() * 100);
+        // };
+        //
+        //
+        //
+        // let lineconfig = {
+        //   type: 'line',
+        //   data: {
+        //     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        //     datasets: [{
+        //       label: 'My First dataset',
+        //       backgroundColor: 'rgba(255, 159, 64, 0.2)',
+        //       borderColor: 'rgba(255, 159, 64, 0.4)',
+        //       data: [
+        //         randomScalingFactor(),
+        //         randomScalingFactor(),
+        //         randomScalingFactor(),
+        //         randomScalingFactor(),
+        //         randomScalingFactor(),
+        //         randomScalingFactor(),
+        //         randomScalingFactor()
+        //       ],
+        //       fill: false,
+        //     }, {
+        //       label: 'My Second dataset',
+        //       fill: false,
+        //       backgroundColor: 'rgba(255, 159, 64, 0.2)',
+        //       borderColor: 'rgba(255, 159, 64, 0.2)',
+        //       data: [
+        //         randomScalingFactor(),
+        //         randomScalingFactor(),
+        //         randomScalingFactor(),
+        //         randomScalingFactor(),
+        //         randomScalingFactor(),
+        //         randomScalingFactor(),
+        //         randomScalingFactor()
+        //       ],
+        //     }]
+        //   },
+        //   options: {
+        //     responsive: false,
+        //     title: {
+        //       display: true,
+        //       text: 'Chart.js Line Chart'
+        //     },
+        //     tooltips: {
+        //       mode: 'index',
+        //       intersect: false,
+        //     },
+        //     hover: {
+        //       mode: 'nearest',
+        //       intersect: true
+        //     },
+        //     scales: {
+        //       xAxes: [{
+        //         display: true,
+        //         scaleLabel: {
+        //           display: true,
+        //           labelString: 'Month'
+        //         }
+        //       }],
+        //       yAxes: [{
+        //         display: true,
+        //         scaleLabel: {
+        //           display: true,
+        //           labelString: 'Value'
+        //         }
+        //       }]
+        //     }
+        //   }
+        // }
+        //
+        // this.linechart = new Chart('line', lineconfig);
 
 
       }

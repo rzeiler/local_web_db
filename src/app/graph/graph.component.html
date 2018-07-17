@@ -1,3 +1,5 @@
-<p>
-  graph works!
-</p>
+<mat-card>
+  <div *ngIf="linechart">
+    <canvas  id="line" height="300px;" width="700px;">{{ linechart }}</canvas>
+  </div>
+</mat-card>
