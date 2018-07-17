@@ -70,7 +70,7 @@ export class GraphComponent implements OnInit {
         label: 'My Second dataset',
         fill: false,
         backgroundColor: this.colors[_i],
-        borderColor: this.colors[_i]
+        borderColor: this.colors[_i],
         data: [
           this.randomScalingFactor(),
           this.randomScalingFactor(),
@@ -79,7 +79,7 @@ export class GraphComponent implements OnInit {
           this.randomScalingFactor(),
           this.randomScalingFactor(),
           this.randomScalingFactor()
-        ],
+        ]
       });
 
     }
