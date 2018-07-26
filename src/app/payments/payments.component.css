@@ -19,8 +19,13 @@
   flex: 0 0 90px;
 }
 
-.container {
+.status {
+  width: 66vw;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 200px 200px;
+  grid-template-columns: 33vw 33vw;
+  grid-template-rows: auto;
+  height: auto;
+}
+.status .mat-card{
+  padding: 20px 20px 0px 0px ;
 }

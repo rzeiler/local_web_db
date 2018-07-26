@@ -1,9 +1,10 @@
 .container {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 33vw 66vw;
   grid-template-rows: auto;
   height: 100vh;
 }
+ 
 
 .app-space {
   flex: 1 1 auto;

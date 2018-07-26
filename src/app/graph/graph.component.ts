@@ -1,5 +1,19 @@
-import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
-import { Chart } from 'chart.js';
+import {
+  Component,
+  OnInit,
+  Input,
+  ElementRef,
+  ViewChild
+} from '@angular/core';
+import {
+  Chart
+} from 'chart.js';
+
+
+import {
+  BehaviorSubject
+} from 'rxjs';
+
 
 @Component({
   selector: 'app-graph',
@@ -8,40 +22,70 @@ import { Chart } from 'chart.js';
 })
 export class GraphComponent implements OnInit {
 
-  @Input() data: any;
-  colors = ['#f1c40f', '#17a589', '#2471a3', '#cb4335', '#7d3c98', '#2e86c1'];
+  private _data = new BehaviorSubject < any > ([]);
 
-  linechart = [];
+  _chart: Chart = null;
 
+  @Input()
+  set data(value) {
+    this._data.next(value);
+  };
 
-  randomScalingFactor() {
-    return Math.round(Math.random() * 100);
+  get data() {
+    return this._data.getValue();
   }
 
+  colors = ['#f1c40f', '#17a589', '#2471a3', '#cb4335', '#7d3c98', '#2e86c1'];
+  @ViewChild("line") tref: ElementRef;
+ 
+
   constructor() {
+
   }
 
   ngOnInit() {
 
-  }
+    const _current_date = new Date();
+    const maxDays = new Date(_current_date.getFullYear(), _current_date.getMonth() + 1, 0).getDate();
 
-  ngAfterViewInit() {
+    let _labels = [];
+    let cash_data = [];
 
-    let lineconfig = {
+    for (let i = 1; i <= maxDays; i++) {
+      _labels.push(i);
+      cash_data.push(0);
+    }
+
+
+    let config = {
       type: 'line',
       data: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        datasets: []
+        labels: _labels,
+        datasets: [{
+          fill: true,
+          backgroundColor: 'rgba(255, 99, 132,.5)',
+          borderColor: 'rgb(255, 99, 132)',
+          data: cash_data
+        }]
       },
       options: {
-        responsive: false,
+        legend: {
+          display: false,
+        },
+        responsive: true,
+        maintainAspectRatio: false,
         title: {
-          display: true,
-          text: 'Chart.js Line Chart'
+          display: false,
         },
         tooltips: {
           mode: 'index',
           intersect: false,
+          callbacks: {
+            label: function(tooltipItem) {
+                return "Summe: "+ tooltipItem.yLabel +" €"; 
+                
+            }
+          }
         },
         hover: {
           mode: 'nearest',
@@ -52,45 +96,44 @@ export class GraphComponent implements OnInit {
             display: true,
             scaleLabel: {
               display: true,
-              labelString: 'Month'
+              labelString: 'Tag'
             }
           }],
           yAxes: [{
             display: true,
             scaleLabel: {
               display: true,
-              labelString: 'Value'
+              labelString: 'Summe'
             }
           }]
         }
       }
     }
-    for (var _i = 0; _i < 6; _i++) {
-      lineconfig.data.datasets.push({
-        label: 'My Second dataset',
-        fill: false,
-        backgroundColor: this.colors[_i],
-        borderColor: this.colors[_i],
-        data: [
-          this.randomScalingFactor(),
-          this.randomScalingFactor(),
-          this.randomScalingFactor(),
-          this.randomScalingFactor(),
-          this.randomScalingFactor(),
-          this.randomScalingFactor(),
-          this.randomScalingFactor()
-        ]
+    this._chart = new Chart(this.tref.nativeElement, config);
+
+    this._data.subscribe((d) => {
+      cash_data = [];
+      if (d != null) {
+        /* sort */
+        var byDate = d.slice(0);
+        byDate.sort(function (a, b) {
+          return a.createdate - b.createdate;
+        });
+        let lastSum: number = 0;
+        for (let i = 1; i <= maxDays; i++) {
+          lastSum = 0;
+          const found = byDate.filter(item => new Date(item.createdate).getDate() == i);
+          found.forEach(item => {
+            lastSum = parseFloat(item.total) + lastSum;
+          });
+          cash_data.push( lastSum);
+        }
+      }
+      this._chart.data.datasets.forEach((dataset) => {
+        dataset.data = cash_data;
       });
-
-    }
-
-
-
-
-
-
-    this.linechart = new Chart('line', lineconfig);
+      this._chart.update();
+    });
   }
-
 
 }

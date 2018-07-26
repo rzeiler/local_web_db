@@ -1,9 +1,20 @@
+<div class="status">
+  <mat-card>
+    <app-graph [data]="current_month" ></app-graph>
+  </mat-card>
+  <mat-card>
+    ohne
+    <app-graph></app-graph>
+  </mat-card>
+</div>
 <div style="display: flex;">
   <mat-form-field class="marg block">
     <input matInput [disabled]="!_hasCategory" (keyup)="applyFilter($event.target.value)" placeholder="Filter">
   </mat-form-field>
   <span class="app-space"></span>
-  <button [disabled]="!_hasCategory" color="warn" mat-mini-fab (click)="addPayment()"><mat-icon>add</mat-icon></button>
+  <button [disabled]="!_hasCategory" color="warn" mat-mini-fab (click)="addPayment()">
+    <mat-icon>add</mat-icon>
+  </button>
 </div>
 <div class="marg mat-elevation-z8">
   <div>
@@ -11,7 +22,9 @@
       <ng-container matColumnDef="option">
         <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
         <mat-cell *matCellDef="let row">
-          <button mat-icon-button (click)="editPayment(row)"><mat-icon>edit</mat-icon></button>
+          <button mat-icon-button (click)="editPayment(row)">
+            <mat-icon>edit</mat-icon>
+          </button>
         </mat-cell>
         <mat-footer-cell *matFooterCellDef>
         </mat-footer-cell>
@@ -36,9 +49,9 @@
         <mat-cell *matCellDef="let row" [style.color]="row.color"> {{row.repeat}} </mat-cell>
         <mat-footer-cell *matFooterCellDef> </mat-footer-cell>
       </ng-container>
-      <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
+      <mat-header-row *matHeaderRowDef="displayedColumns; sticky: false"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-      <mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></mat-footer-row>
+      <mat-footer-row *matFooterRowDef="displayedColumns; sticky: false"></mat-footer-row>
     </mat-table>
   </div>
   <mat-paginator #paginator [length]="dataSource.data.length" [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[10, 20, 40]">

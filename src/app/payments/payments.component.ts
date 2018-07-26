@@ -1,16 +1,12 @@
-import { Component, ViewChild, Inject, HostListener, ElementRef } from '@angular/core';
+import { Component, ViewChild, Inject, HostListener, ElementRef, Output } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-
-import { Chart } from 'chart.js';
-
 import { AdService } from '../ad.service';
-import { Observable } from "rxjs";
 import { ICategory } from "../category";
 import { ICash } from '../cash';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'payments',
@@ -22,16 +18,19 @@ export class PaymentsComponent {
   dataSource: MatTableDataSource<ICash>;
 
   data: any;
-  //
-  // linechart = [];
-
+  
   public _hasCategory: boolean = false;
   public _category: ICategory;
+
+  current_month :any;
+ 
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(public db: AdService, public dialog: MatDialog) {
+
+    console.log("PaymentsComponent");
 
     this.dataSource = new MatTableDataSource();
     db.category.subscribe((data: any) => {
@@ -41,90 +40,24 @@ export class PaymentsComponent {
         this._category = data;
 
         this.data = data.cash;
-        console.log("change", this.data);
-        this.dataSource.data = data.cash.filter(function(o) {
+      
+        const DATA = data.cash.filter(function(o) {
           if (o.isdeleted == false)
             return o;
         });
 
-
-
-
-        // var randomScalingFactor = function() {
-        //   return Math.round(Math.random() * 100);
-        // };
-        //
-        //
-        //
-        // let lineconfig = {
-        //   type: 'line',
-        //   data: {
-        //     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        //     datasets: [{
-        //       label: 'My First dataset',
-        //       backgroundColor: 'rgba(255, 159, 64, 0.2)',
-        //       borderColor: 'rgba(255, 159, 64, 0.4)',
-        //       data: [
-        //         randomScalingFactor(),
-        //         randomScalingFactor(),
-        //         randomScalingFactor(),
-        //         randomScalingFactor(),
-        //         randomScalingFactor(),
-        //         randomScalingFactor(),
-        //         randomScalingFactor()
-        //       ],
-        //       fill: false,
-        //     }, {
-        //       label: 'My Second dataset',
-        //       fill: false,
-        //       backgroundColor: 'rgba(255, 159, 64, 0.2)',
-        //       borderColor: 'rgba(255, 159, 64, 0.2)',
-        //       data: [
-        //         randomScalingFactor(),
-        //         randomScalingFactor(),
-        //         randomScalingFactor(),
-        //         randomScalingFactor(),
-        //         randomScalingFactor(),
-        //         randomScalingFactor(),
-        //         randomScalingFactor()
-        //       ],
-        //     }]
-        //   },
-        //   options: {
-        //     responsive: false,
-        //     title: {
-        //       display: true,
-        //       text: 'Chart.js Line Chart'
-        //     },
-        //     tooltips: {
-        //       mode: 'index',
-        //       intersect: false,
-        //     },
-        //     hover: {
-        //       mode: 'nearest',
-        //       intersect: true
-        //     },
-        //     scales: {
-        //       xAxes: [{
-        //         display: true,
-        //         scaleLabel: {
-        //           display: true,
-        //           labelString: 'Month'
-        //         }
-        //       }],
-        //       yAxes: [{
-        //         display: true,
-        //         scaleLabel: {
-        //           display: true,
-        //           labelString: 'Value'
-        //         }
-        //       }]
-        //     }
-        //   }
-        // }
-        //
-        // this.linechart = new Chart('line', lineconfig);
-
+        this.dataSource.data = DATA;
+        /* get all this month */
+        /* first day of current month */
+        const d = new Date();
+        const _d = new Date(d.getFullYear(),d.getMonth(),1,0,0,0,0).getTime();
+        const fd = DATA.filter(function(o) {
+          if (o.createdate >= _d){
+            return o;
+          }
+            
+        });
+        this.current_month = fd;
 
       }
     });

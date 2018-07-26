@@ -2,7 +2,7 @@
   "compileOnSave": true,
   "compilerOptions": {
     "baseUrl": "./",
-    "outDir": "./dist/out-tsc",
+    "outDir": "./dist/financflow",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
